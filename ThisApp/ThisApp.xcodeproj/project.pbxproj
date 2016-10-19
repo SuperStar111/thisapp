@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		263F3B2D1DB805F90020F552 /* FriendsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263F3B2C1DB805F90020F552 /* FriendsController.swift */; };
 		38B9D4BD1DB5B25E00005991 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D4BC1DB5B25E00005991 /* AppDelegate.swift */; };
 		38B9D4BF1DB5B25E00005991 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D4BE1DB5B25E00005991 /* ViewController.swift */; };
 		38B9D4C21DB5B25E00005991 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38B9D4C01DB5B25E00005991 /* Main.storyboard */; };
 		38B9D4C41DB5B25E00005991 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38B9D4C31DB5B25E00005991 /* Assets.xcassets */; };
 		38B9D4C71DB5B25E00005991 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38B9D4C51DB5B25E00005991 /* LaunchScreen.storyboard */; };
-		38B9D4FA1DB614DA00005991 /* FriendsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D4F91DB614DA00005991 /* FriendsController.swift */; };
 		AB77BE8A8E7F92830BF8F542 /* Pods_ThisApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBFC7A8697223ECA89144E0E /* Pods_ThisApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		263F3B2C1DB805F90020F552 /* FriendsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsController.swift; sourceTree = "<group>"; };
+		26A8F4051DB76BB500AF1030 /* ThisApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThisApp.entitlements; sourceTree = "<group>"; };
 		38B9D4B91DB5B25E00005991 /* ThisApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThisApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38B9D4BC1DB5B25E00005991 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		38B9D4BE1DB5B25E00005991 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,7 +39,6 @@
 		38B9D4C31DB5B25E00005991 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		38B9D4C61DB5B25E00005991 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		38B9D4C81DB5B25E00005991 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		38B9D4F91DB614DA00005991 /* FriendsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsController.swift; path = "../../facebook_login_integration-master/youtube_demo4/FriendsController.swift"; sourceTree = "<group>"; };
 		C0991DE5477B8019BFE1529B /* Pods-ThisApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThisApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ThisApp/Pods-ThisApp.debug.xcconfig"; sourceTree = "<group>"; };
 		C6EF0C3FE57F86198D645C9B /* Pods-ThisApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThisApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ThisApp/Pods-ThisApp.release.xcconfig"; sourceTree = "<group>"; };
 		CBFC7A8697223ECA89144E0E /* Pods_ThisApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThisApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +85,8 @@
 		38B9D4BB1DB5B25E00005991 /* ThisApp */ = {
 			isa = PBXGroup;
 			children = (
-				38B9D4F91DB614DA00005991 /* FriendsController.swift */,
+				263F3B2C1DB805F90020F552 /* FriendsController.swift */,
+				26A8F4051DB76BB500AF1030 /* ThisApp.entitlements */,
 				38B9D4BC1DB5B25E00005991 /* AppDelegate.swift */,
 				38B9D4BE1DB5B25E00005991 /* ViewController.swift */,
 				38B9D4C01DB5B25E00005991 /* Main.storyboard */,
@@ -148,6 +150,13 @@
 				TargetAttributes = {
 					38B9D4B81DB5B25E00005991 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = L4Q8Y55JVB;
+						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -236,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38B9D4BF1DB5B25E00005991 /* ViewController.swift in Sources */,
-				38B9D4FA1DB614DA00005991 /* FriendsController.swift in Sources */,
+				263F3B2D1DB805F90020F552 /* FriendsController.swift in Sources */,
 				38B9D4BD1DB5B25E00005991 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +367,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ThisApp/ThisApp.entitlements;
+				DEVELOPMENT_TEAM = L4Q8Y55JVB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThisApp",
@@ -370,6 +381,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -379,6 +391,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ThisApp/ThisApp.entitlements;
+				DEVELOPMENT_TEAM = L4Q8Y55JVB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThisApp",
@@ -390,6 +404,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -10,11 +10,13 @@ import UIKit
 import FBSDKLoginKit
 
 class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+    
+
 
     
     let userImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.masksToBounds = true
         return imageView
@@ -22,8 +24,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFontOfSize(20)
-        label.textAlignment = .Center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,11 +38,11 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     }()
     
     let showFriendsButton: UIButton = {
-        let button = UIButton(type: .System)
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Show Friends", forState: .Normal)
-        button.titleLabel?.font = UIFont.boldSystemFontOfSize(12)
-        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button.setTitle("Show Friends", for: UIControlState())
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        button.setTitleColor(UIColor.black, for: UIControlState())
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         return button
@@ -50,16 +52,16 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.isTranslucent = false
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         navigationItem.title = "Facebook Login"
         
         
         setupSubviews()
         
-        if let _ = FBSDKAccessToken.currentAccessToken() {
-            showFriendsButton.hidden = false
+        if let _ = FBSDKAccessToken.current() {
+            showFriendsButton.isHidden = false
             fetchProfile()
         }
     }
@@ -74,33 +76,36 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         view.addSubview(userImageView)
         view.addSubview(nameLabel)
         view.addSubview(showFriendsButton)
-        showFriendsButton.hidden = true
+        showFriendsButton.isHidden = true
         
-        showFriendsButton.addTarget(self, action: "showFriends", forControlEvents: .TouchUpInside)
+        showFriendsButton.addTarget(self, action: #selector(ViewController.showFriends), for: .touchUpInside)
         
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": userImageView]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-80-[v0]-80-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": showFriendsButton]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": userImageView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-80-[v0]-80-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": showFriendsButton]))
         
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-80-[v0]-80-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": loginButton]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-80-[v0]-80-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": loginButton]))
         
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[v0(100)]-8-[v1(30)]-8-[v2(50)]-8-[v3(44)]", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": userImageView, "v1": nameLabel, "v2": loginButton, "v3": showFriendsButton]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[v0(100)]-8-[v1(30)]-8-[v2(50)]-8-[v3(44)]", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": userImageView, "v1": nameLabel, "v2": loginButton, "v3": showFriendsButton]))
         
         loginButton.delegate = self
     }
     
     func showFriends() {
         let parameters = ["fields": "name,picture.type(normal),gender"]
-        FBSDKGraphRequest(graphPath: "me/taggable_friends", parameters: parameters).startWithCompletionHandler({ (connection, user, requestError) -> Void in
+        FBSDKGraphRequest(graphPath: "me/taggable_friends", parameters: parameters).start(completionHandler: { (connection, user, requestError) -> Void in
             if requestError != nil {
                 print(requestError)
                 return
             }
             
             var friends = [Friend]()
-            for friendDictionary in user["data"] as! [NSDictionary] {
+            let userDictionary = user as! [String: Any]
+            for friendDictionary in userDictionary["data"] as! [[String:Any]] {
                 let name = friendDictionary["name"] as? String
-                if let picture = friendDictionary["picture"]?["data"]?!["url"] as? String {
+                var pictureDictionary = friendDictionary["picture"] as? [String : Any]
+                var pictureData = pictureDictionary?["data"] as? [String : Any]
+                if let picture = pictureData?["url"] as? String{
                     let friend = Friend(name: name, picture: picture)
                     friends.append(friend)
                 }
@@ -109,41 +114,42 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             let friendsController = FriendsController(collectionViewLayout: UICollectionViewFlowLayout())
             friendsController.friends = friends
             self.navigationController?.pushViewController(friendsController, animated: true)
-            self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+            self.navigationController?.navigationBar.tintColor = UIColor.white
         })
     }
     
    
     func fetchProfile() {
         let parameters = ["fields": "email, first_name, last_name, picture.type(large)"]
-        FBSDKGraphRequest(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, user, requestError) -> Void in
+        FBSDKGraphRequest(graphPath: "me", parameters: parameters).start(completionHandler: { (connection, user, requestError) -> Void in
             
             if requestError != nil {
                 print(requestError)
                 return
             }
             
-            var _ = user["email"] as? String
-            let firstName = user["first_name"] as? String
-            let lastName = user["last_name"] as? String
+            let userDictionary = user as! [String: Any]
+            var _ = userDictionary["email"] as? String
+            let firstName = userDictionary["first_name"] as! String
+            let lastName = userDictionary["last_name"] as! String
             
-            self.nameLabel.text = "\(firstName!) \(lastName!)"
+            self.nameLabel.text = "\(firstName) \(lastName)"
             
             var pictureUrl = ""
             
-            if let picture = user["picture"] as? NSDictionary, data = picture["data"] as? NSDictionary, url = data["url"] as? String {
+            if let picture = userDictionary["picture"] as? NSDictionary, let data = picture["data"] as? NSDictionary, let url = data["url"] as? String {
                 pictureUrl = url
             }
             
-            let url = NSURL(string: pictureUrl)
-            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) -> Void in
+            let url = URL(string: pictureUrl)
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 if error != nil {
                     print(error)
                     return
                 }
                 
                 let image = UIImage(data: data!)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.userImageView.image = image
                 })
                 
@@ -152,9 +158,14 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         })
     }
     
-     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!)
-     {
-        
+    
+    /*!
+     @abstract Sent to the delegate when the button was used to login.
+     @param loginButton the sender
+     @param result The results of the login
+     @param error The error (if any) from the login
+     */
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         if ((error) != nil)
         {
             // Process error
@@ -168,17 +179,17 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             if result.grantedPermissions.contains("email")
             {
                 // Do work
-                showFriendsButton.hidden = false
+                showFriendsButton.isHidden = false
                 fetchProfile()
             }
         }
-        
+
     }
     
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
-        showFriendsButton.hidden = true
+        showFriendsButton.isHidden = true
     }
 }
 
@@ -187,15 +198,15 @@ struct Friend {
 }
 
 extension UIView {
-    func addConstraintsWithFormat(format: String, views: UIView...) {
+    func addConstraintsWithFormat(_ format: String, views: UIView...) {
         var viewsDictionary = [String: UIView]()
-        for (index, view) in views.enumerate() {
+        for (index, view) in views.enumerated() {
             let key = "v\(index)"
             viewsDictionary[key] = view
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
 }
 
