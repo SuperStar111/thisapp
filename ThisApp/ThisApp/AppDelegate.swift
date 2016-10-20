@@ -37,15 +37,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
     
-    func application(_ application: UIApplication,
-                     open url: URL,
-                             sourceApplication: String?,
-                             annotation: Any) -> Bool {
+    @available(iOS, introduced: 4.2, deprecated: 9.0, message: "Please use application:openURL:options:")
+    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool{
         return FBSDKApplicationDelegate.sharedInstance().application(
             application,
             open: url,
             sourceApplication: sourceApplication,
             annotation: annotation)
+    }
+    
+
+    @available(iOS 9.0, *)
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool{
+        FBSDKApplicationDelegate.sharedInstance().application(app,
+                                                              open: url,
+                                                              sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
+                                                              annotation: options [UIApplicationOpenURLOptionsKey.annotation])
+        
+        return true;
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
